@@ -1,9 +1,7 @@
-from data import animals, animalBreeds, nutritions, vaccineCycles, symptoms, illness
+from data import animals, animalBreeds, nutritions, vaccineCycles, symptoms, illness, medications
 from data import Animal, AnimalBreed, ENutritionQuantityType
 from typing import List
-from enum import Enum
 
-# TODO: finalizar listagem de doenças com tratamento e sintomas (função _printPossibleIllness)
 # TODO: adicionar mais dados e ajustar os dados atuais
 
 shouldProgramRun = True
@@ -18,8 +16,28 @@ class ANSI:
     UNDERLINE = '\033[4m'
 
 
+def _getIllnessSymptoms(symptomsId: List[int]):
+    allSymptoms: List[str] = []
+    for pos, symptomId in enumerate(symptomsId):
+        for symptom in symptoms:
+            if symptom.id == symptomId:
+                allSymptoms.insert(pos, symptom.name)
+
+    return ','.join(allSymptoms)
+
+
+def _getIllnessTreatments(medicationIds: List[int]):
+    allMedications: List[str] = []
+    for pos, medicationId in enumerate(medicationIds):
+        for medication in medications:
+            if medication.id == medicationId:
+                allMedications.insert(pos, medication.name)
+
+    return ','.join(allMedications)
+
+
 def _printPossibleIllness():
-    symptomString = input("\nInforme os sintomas do animal separados por vírgula (não informe nada para retornar)")
+    symptomString = input("\nInforme os sintomas do animal separados por vírgula (não informe nada para retornar)\n")
     symptomSplit = symptomString.split(",")
 
     if len(symptomSplit) == 0:
@@ -28,7 +46,7 @@ def _printPossibleIllness():
     symptomIds = []
     for pos, splitted in enumerate(symptomSplit):
         for symptom in symptoms:
-            if symptom.name.find(splitted):
+            if symptom.name == splitted:
                 symptomIds.insert(pos, symptom.id)
                 break
 
@@ -36,7 +54,11 @@ def _printPossibleIllness():
 
     for illnesses in illness:
         if any(elem in illnesses.symptoms for elem in symptomIds):
-            print(f"{illnesses.name}")
+            print(f"- {illnesses.name}")
+            print(f"  Sintomas: {_getIllnessSymptoms(illnesses.symptoms)}")
+            print(f"  Tratamento: {_getIllnessTreatments(illnesses.treatments)}")
+            print(f"  Prevenção: {illnesses.prevention}")
+            print("\n")
 
     input("\nPressione Enter para continuar...\n")
 
