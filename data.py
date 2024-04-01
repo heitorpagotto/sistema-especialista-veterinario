@@ -18,6 +18,15 @@ class EMedicationType(Enum):
     PILL = 1
 
 
+class SymptomIntensity:
+    symptomId: int
+    symptomIntensity: int
+
+    def __init__(self, symptomId: int, symptomIntensity: int):
+        self.symptomId = symptomId
+        self.symptomIntensity = 5 if symptomIntensity >= 5 else symptomIntensity
+
+
 class DefaultClass:
     id: int
     description: str
@@ -82,16 +91,27 @@ class Nutrition(DefaultClass):
 class Illness:
     id: int
     name: str
-    symptoms: List[int]
+    symptoms: List[SymptomIntensity]
     treatments: List[int]
     prevention: str
+    occurrences: int
+    percentage: float
 
-    def __init__(self, id: int, name: str, symptoms: List[int], treatments: List[int], prevention: str):
+    def __init__(self,
+                 id: int,
+                 name: str,
+                 symptoms: List[SymptomIntensity],
+                 treatments: List[int],
+                 prevention: str,
+                 occurrences: int,
+                 percentage: float):
         self.id = id
         self.name = name
         self.symptoms = symptoms
         self.treatments = treatments
         self.prevention = prevention
+        self.occurrences = occurrences
+        self.percentage = percentage
 
 
 class Symptoms:
@@ -170,11 +190,59 @@ medications: List[Medication] = [
 ]
 
 illness: List[Illness] = [
-    Illness(1, "Traqueobronquite", [1, 2, 4, 3], [1, 7, 3, 5, 6], "Vacinação em dia e higiene constante ajudam na prevenção da doença"),
-    Illness(2, "Piodermite", [5, 6], [1, 2], "Higiene e secagem apropriada após banhos"),
-    Illness(3, "Doença do carrapato", [3, 4], [1], "Vacinação em dia e controle de ambientes silvestres ao qual o animal tem contato"),
-    Illness(4, "Leptospirose", [4, 7, 8], [1, 5, 3], "Vacinação em dia, controle de roedores no local e higiene constante"),
-    Illness(5, "Toxoplasmose", [4, 7, 8], [8], "Alimentação e água seguras e limpas e higiene constante"),
-    Illness(6, "Candidíase", [4, 7, 8], [4], "Controle de parasitas, higiene constante e manter uma alimentação balanceada"),
-    Illness(7, "Deficiencia Nutricional", [10, 11, 9], [6, 5], "Alimentação balanceada de acordo com o animal"),
+    Illness(1,
+            "Traqueobronquite",
+            [
+                SymptomIntensity(1, 2),
+                SymptomIntensity(2, 3),
+                SymptomIntensity(4, 2),
+                SymptomIntensity(3, 5)],
+            [1, 7, 3, 5, 6],
+            "Vacinação em dia e higiene constante ajudam na prevenção da doença",0,0),
+    Illness(2,
+            "Piodermite",
+            [
+                SymptomIntensity(5, 4),
+                SymptomIntensity(6, 5)],
+            [1, 2],
+            "Higiene e secagem apropriada após banhos",0,0),
+    Illness(3,
+            "Doença do carrapato",
+            [
+                SymptomIntensity(3, 5),
+                SymptomIntensity(4, 4)],
+            [1],
+            "Vacinação em dia e controle de ambientes silvestres ao qual o animal tem contato",0,0),
+    Illness(4,
+            "Leptospirose",
+            [
+                SymptomIntensity(4, 4),
+                SymptomIntensity(7, 3),
+                SymptomIntensity(8, 5)],
+            [1, 5, 3],
+            "Vacinação em dia, controle de roedores no local e higiene constante",0,0),
+    Illness(5,
+            "Toxoplasmose",
+            [
+                SymptomIntensity(4, 5),
+                SymptomIntensity(7, 2),
+                SymptomIntensity(8, 4)],
+            [8],
+            "Alimentação e água seguras e limpas e higiene constante",0,0),
+    Illness(6,
+            "Candidíase",
+            [
+                SymptomIntensity(4, 5),
+                SymptomIntensity(7, 3),
+                SymptomIntensity(8, 4)],
+            [4],
+            "Controle de parasitas, higiene constante e manter uma alimentação balanceada",0,0),
+    Illness(7,
+            "Deficiencia Nutricional",
+            [
+                SymptomIntensity(10, 5),
+                SymptomIntensity(11, 4),
+                SymptomIntensity(9, 3)],
+            [6, 5],
+            "Alimentação balanceada de acordo com o animal",0,0),
 ]

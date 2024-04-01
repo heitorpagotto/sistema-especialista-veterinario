@@ -1,5 +1,5 @@
 from data import animals, animalBreeds, nutritions, vaccineCycles, symptoms, illness, medications
-from data import Animal, AnimalBreed, ENutritionQuantityType
+from data import Animal, AnimalBreed, ENutritionQuantityType, Illness
 from typing import List
 
 # TODO: adicionar mais dados e ajustar os dados atuais
@@ -36,6 +36,11 @@ def _getIllnessTreatments(medicationIds: List[int]):
     return ','.join(allMedications)
 
 
+def _calculateMedium(ill: Illness):
+    total = sum(s.symptomIntensity for s in ill.symptoms)
+    return float(ill.occurrences) / total * 100
+
+
 def _printPossibleIllness():
     symptomString = input("\nInforme os sintomas do animal separados por vírgula (não informe nada para retornar)\n")
     symptomSplit = symptomString.split(",")
@@ -43,22 +48,34 @@ def _printPossibleIllness():
     if len(symptomSplit) == 0:
         return
 
-    symptomIds = []
+    allSymptoms = []
     for pos, splitted in enumerate(symptomSplit):
         for symptom in symptoms:
             if symptom.name == splitted:
-                symptomIds.insert(pos, symptom.id)
+                allSymptoms.insert(pos, symptom)
                 break
 
     print("Seguem algumas potenciais doenças de acordo com os sintomas informados:\n")
 
-    for illnesses in illness:
-        if any(elem in illnesses.symptoms for elem in symptomIds):
-            print(f"- {illnesses.name}")
-            print(f"  Sintomas: {_getIllnessSymptoms(illnesses.symptoms)}")
-            print(f"  Tratamento: {_getIllnessTreatments(illnesses.treatments)}")
-            print(f"  Prevenção: {illnesses.prevention}")
-            print("\n")
+    illnessToPrint = []
+    for pos, illnesses in enumerate(illness):
+        for sym in allSymptoms:
+            for element in illnesses.symptoms:
+                if sym.id == element.symptomId:
+                    illnesses.occurrences += element.symptomIntensity
+                    illnessToPrint.insert(pos, illnesses)
+
+    for illnessForPrint in illnessToPrint:
+        illnessForPrint.percentage = _calculateMedium(illnessForPrint)
+
+    sortedIllness = sorted(illnessToPrint, key=lambda x: x.percentage, reverse=True)
+
+    for validIllness in sortedIllness:
+        print(f"- {validIllness.name} ({'%.2f' % validIllness.percentage}%)")
+        print(f"  Sintomas: {_getIllnessSymptoms([ill.symptomId for ill in validIllness.symptoms])}")
+        print(f"  Tratamento: {_getIllnessTreatments(validIllness.treatments)}")
+        print(f"  Prevenção: {validIllness.prevention}")
+        print("\n")
 
     input("\nPressione Enter para continuar...\n")
 
