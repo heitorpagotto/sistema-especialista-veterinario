@@ -61,21 +61,24 @@ def _printPossibleIllness():
     for pos, illnesses in enumerate(illness):
         for sym in allSymptoms:
             for element in illnesses.symptoms:
-                if sym.id == element.symptomId:
+                if sym.id == element.symptomId and animalObj.id in illnesses.animals:
                     illnesses.occurrences += element.symptomIntensity
                     illnessToPrint.insert(pos, illnesses)
 
-    for illnessForPrint in illnessToPrint:
-        illnessForPrint.percentage = _calculateMedium(illnessForPrint)
+    if len(illnessToPrint) == 0:
+        print("Não existe nenhuma doença que se encaixa nos sintomas informados")
+    else:
+        for illnessForPrint in illnessToPrint:
+            illnessForPrint.percentage = _calculateMedium(illnessForPrint)
 
-    sortedIllness = sorted(illnessToPrint, key=lambda x: x.percentage, reverse=True)
+        sortedIllness = sorted(illnessToPrint, key=lambda x: x.percentage, reverse=True)
 
-    for validIllness in sortedIllness:
-        print(f"- {validIllness.name} ({'%.2f' % validIllness.percentage}%)")
-        print(f"  Sintomas: {_getIllnessSymptoms([ill.symptomId for ill in validIllness.symptoms])}")
-        print(f"  Tratamento: {_getIllnessTreatments(validIllness.treatments)}")
-        print(f"  Prevenção: {validIllness.prevention}")
-        print("\n")
+        for validIllness in sortedIllness:
+            print(f"- {validIllness.name} ({'%.2f' % validIllness.percentage}%)")
+            print(f"  Sintomas: {_getIllnessSymptoms([ill.symptomId for ill in validIllness.symptoms])}")
+            print(f"  Tratamento: {_getIllnessTreatments(validIllness.treatments)}")
+            print(f"  Prevenção: {validIllness.prevention}")
+            print("\n")
 
     input("\nPressione Enter para continuar...\n")
 
@@ -151,13 +154,19 @@ while shouldProgramRun:
     while animalObj is None:
         animalName = input('Qual o animal que deseja consultar?\n')
         animalObj = _getObj(animals, "name", animalName)
+        if animalObj is None:
+            print("Animal não encontrado, tente novamente.\n")
 
     while breedObj is None:
         breedName = input(f'Qual a raça do {animalObj.name}?\n')
         breedObj = _getObj(animalBreeds, "name", breedName)
+        if breedObj is None:
+            print("Raça não encontrada, tente novamente.\n")
 
     while animalWeight <= 0:
         animalWeight = float(input('Qual o peso do seu animal? (em KG)\n'))
+        if animalWeight <= 0:
+            print("Peso precisa ser maior que 0.\n")
 
     if animalObj is not None and breedObj is not None and animalWeight != 0:
         _printMainMenu()

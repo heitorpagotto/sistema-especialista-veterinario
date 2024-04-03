@@ -96,6 +96,7 @@ class Illness:
     prevention: str
     occurrences: int
     percentage: float
+    animals: List[int]
 
     def __init__(self,
                  id: int,
@@ -104,7 +105,8 @@ class Illness:
                  treatments: List[int],
                  prevention: str,
                  occurrences: int,
-                 percentage: float):
+                 percentage: float,
+                 animals: List[int]):
         self.id = id
         self.name = name
         self.symptoms = symptoms
@@ -112,6 +114,7 @@ class Illness:
         self.prevention = prevention
         self.occurrences = occurrences
         self.percentage = percentage
+        self.animals = animals
 
 
 class Symptoms:
@@ -140,19 +143,23 @@ animals: List[Animal] = [
 ]
 
 nutritions: List[Nutrition] = [
-    Nutrition(1, "Ração", 200, ENutritionQuantityType.GRAMS),
-    Nutrition(2, "Tomar água", 2000, ENutritionQuantityType.MILLILITERS),
+    Nutrition(1, "Ração raça pequena", 200, ENutritionQuantityType.GRAMS),
+    Nutrition(5, "Ração raça grande", 430, ENutritionQuantityType.GRAMS),
+    Nutrition(2, "Água raça grande", 1800, ENutritionQuantityType.MILLILITERS),
+    Nutrition(6, "Água raça pequena", 700, ENutritionQuantityType.MILLILITERS),
     Nutrition(3, "Aveia", 200, ENutritionQuantityType.GRAMS),
     Nutrition(4, "Sementes", 200, ENutritionQuantityType.GRAMS),
 ]
 
 animalBreeds: List[AnimalBreed] = [
     AnimalBreed(1, "Husky Siberiano", EBreedBearing.LARGE, 25, 1, [1, 2]),
-    AnimalBreed(2, "Pinscher", EBreedBearing.SMALL, 10, 1, [1, 2]),
+    AnimalBreed(2, "Pinscher", EBreedBearing.SMALL, 10, 1, [1, 6]),
     AnimalBreed(3, "Papagaio", EBreedBearing.MEDIUM, 0.5, 2, [1, 2]),
     AnimalBreed(4, "Calopsita", EBreedBearing.SMALL, 0.1, 2, [2, 3, 4]),
     AnimalBreed(5, "Persa", EBreedBearing.MEDIUM, 6, 3, [1, 2]),
     AnimalBreed(6, "Siamês", EBreedBearing.MEDIUM, 5.5, 3, [1, 2]),
+    AnimalBreed(7, "Pug", EBreedBearing.MEDIUM, 14, 1, [1, 6]),
+    AnimalBreed(8, "Pastor Alemão", EBreedBearing.LARGE, 30, 1, [5, 2]),
 ]
 
 vaccineCycles: List[VaccineCycle] = [
@@ -198,21 +205,21 @@ illness: List[Illness] = [
                 SymptomIntensity(4, 2),
                 SymptomIntensity(3, 5)],
             [1, 7, 3, 5, 6],
-            "Vacinação em dia e higiene constante ajudam na prevenção da doença",0,0),
+            "Vacinação em dia e higiene constante ajudam na prevenção da doença",0,0, [1]),
     Illness(2,
             "Piodermite",
             [
                 SymptomIntensity(5, 4),
                 SymptomIntensity(6, 5)],
             [1, 2],
-            "Higiene e secagem apropriada após banhos",0,0),
+            "Higiene e secagem apropriada após banhos",0,0, [1,2,3]),
     Illness(3,
             "Doença do carrapato",
             [
                 SymptomIntensity(3, 5),
                 SymptomIntensity(4, 4)],
             [1],
-            "Vacinação em dia e controle de ambientes silvestres ao qual o animal tem contato",0,0),
+            "Vacinação em dia e controle de ambientes silvestres ao qual o animal tem contato",0,0, [1,2,3]),
     Illness(4,
             "Leptospirose",
             [
@@ -220,7 +227,7 @@ illness: List[Illness] = [
                 SymptomIntensity(7, 3),
                 SymptomIntensity(8, 5)],
             [1, 5, 3],
-            "Vacinação em dia, controle de roedores no local e higiene constante",0,0),
+            "Vacinação em dia, controle de roedores no local e higiene constante",0,0, [1,2,3]),
     Illness(5,
             "Toxoplasmose",
             [
@@ -228,7 +235,7 @@ illness: List[Illness] = [
                 SymptomIntensity(7, 2),
                 SymptomIntensity(8, 4)],
             [8],
-            "Alimentação e água seguras e limpas e higiene constante",0,0),
+            "Alimentação e água seguras e limpas e higiene constante",0,0, [1,2,3]),
     Illness(6,
             "Candidíase",
             [
@@ -236,7 +243,7 @@ illness: List[Illness] = [
                 SymptomIntensity(7, 3),
                 SymptomIntensity(8, 4)],
             [4],
-            "Controle de parasitas, higiene constante e manter uma alimentação balanceada",0,0),
+            "Controle de parasitas, higiene constante e manter uma alimentação balanceada",0,0, [1,2,3]),
     Illness(7,
             "Deficiencia Nutricional",
             [
@@ -244,5 +251,5 @@ illness: List[Illness] = [
                 SymptomIntensity(11, 4),
                 SymptomIntensity(9, 3)],
             [6, 5],
-            "Alimentação balanceada de acordo com o animal",0,0),
+            "Alimentação balanceada de acordo com o animal",0,0, [1,2,3]),
 ]
