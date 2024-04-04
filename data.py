@@ -147,15 +147,17 @@ nutritions: List[Nutrition] = [
     Nutrition(5, "Ração raça grande", 430, ENutritionQuantityType.GRAMS),
     Nutrition(2, "Água raça grande", 1800, ENutritionQuantityType.MILLILITERS),
     Nutrition(6, "Água raça pequena", 700, ENutritionQuantityType.MILLILITERS),
+    Nutrition(7, "Água pássaros", 80, ENutritionQuantityType.MILLILITERS),
     Nutrition(3, "Aveia", 200, ENutritionQuantityType.GRAMS),
+    Nutrition(8, "Frutas", 200, ENutritionQuantityType.GRAMS),
     Nutrition(4, "Sementes", 200, ENutritionQuantityType.GRAMS),
 ]
 
 animalBreeds: List[AnimalBreed] = [
     AnimalBreed(1, "Husky Siberiano", EBreedBearing.LARGE, 25, 1, [1, 2]),
     AnimalBreed(2, "Pinscher", EBreedBearing.SMALL, 10, 1, [1, 6]),
-    AnimalBreed(3, "Papagaio", EBreedBearing.MEDIUM, 0.5, 2, [1, 2]),
-    AnimalBreed(4, "Calopsita", EBreedBearing.SMALL, 0.1, 2, [2, 3, 4]),
+    AnimalBreed(3, "Papagaio", EBreedBearing.MEDIUM, 0.5, 2, [7, 4, 8]),
+    AnimalBreed(4, "Calopsita", EBreedBearing.SMALL, 0.1, 2, [7, 3, 4]),
     AnimalBreed(5, "Persa", EBreedBearing.MEDIUM, 6, 3, [1, 2]),
     AnimalBreed(6, "Siamês", EBreedBearing.MEDIUM, 5.5, 3, [1, 2]),
     AnimalBreed(7, "Pug", EBreedBearing.MEDIUM, 14, 1, [1, 6]),
@@ -196,7 +198,7 @@ medications: List[Medication] = [
     Medication(8, "Tomar um comprimido por dia", "Anti-parasitário", EMedicationType.PILL),
 ]
 
-illness: List[Illness] = [
+illnesses: List[Illness] = [
     Illness(1,
             "Traqueobronquite",
             [
@@ -233,6 +235,7 @@ illness: List[Illness] = [
             [
                 SymptomIntensity(4, 5),
                 SymptomIntensity(7, 2),
+                SymptomIntensity(2, 1),
                 SymptomIntensity(8, 4)],
             [8],
             "Alimentação e água seguras e limpas e higiene constante",0,0, [1,2,3]),
@@ -241,7 +244,7 @@ illness: List[Illness] = [
             [
                 SymptomIntensity(4, 5),
                 SymptomIntensity(7, 3),
-                SymptomIntensity(8, 4)],
+                SymptomIntensity(8, 3)],
             [4],
             "Controle de parasitas, higiene constante e manter uma alimentação balanceada",0,0, [1,2,3]),
     Illness(7,
@@ -249,6 +252,7 @@ illness: List[Illness] = [
             [
                 SymptomIntensity(10, 5),
                 SymptomIntensity(11, 4),
+                SymptomIntensity(2, 1),
                 SymptomIntensity(9, 3)],
             [6, 5],
             "Alimentação balanceada de acordo com o animal",0,0, [1,2,3]),
