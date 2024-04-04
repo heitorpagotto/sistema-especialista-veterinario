@@ -62,7 +62,7 @@ def _printPossibleIllness():
     allSymptoms = []
     for splitted in symptomSplit:
         for symptom in symptoms:
-            if symptom.name == splitted:
+            if symptom.name.upper() == splitted.upper():
                 allSymptoms.append(symptom)
                 break
 
