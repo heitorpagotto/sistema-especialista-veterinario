@@ -19,6 +19,15 @@ class ANSI:
     UNDERLINE = '\033[4m' # deixa texto com uma linha
 
 
+# Concatena valores de uma lista para uma string separados por vírgula
+def _getConcatValuesFromList(list: List[any], attribute: str):
+    values = []
+    for obj in list:
+       values.append(getattr(obj, attribute))
+
+    return ','.join(values)
+
+
 # Função que traz uma string concatenada com o nome dos sintomas, baseado em uma lista de ids de sintomas
 def _getIllnessSymptoms(symptomsId: List[int]):
     allSymptoms: List[str] = []
@@ -52,7 +61,7 @@ def _calculateMedium(ill: Illness):
 # Função que imprime as possíveis doenças que um animal pode ter
 def _printPossibleIllness():
     # Sintomas são informados separados por vírgula. Ex: Febre,Tosse
-    symptomString = input("\nInforme os sintomas do animal separados por vírgula (não informe nada para retornar)\n")
+    symptomString = input(f"\nInforme os sintomas do animal separados por vírgula \n(Sintomas disponíveis: {_getConcatValuesFromList(symptoms, 'name')})\n")
     symptomSplit = symptomString.split(",")
 
     if len(symptomSplit) == 0:
@@ -152,7 +161,7 @@ def _printMainMenu():
     for nutrition in nutritions:
         if nutrition.id in breedObj.nutrition:
             print(
-                f"{nutrition.description} - Consumo diário: {nutrition.quantity}{"g" if nutrition.quantityType == ENutritionQuantityType.GRAMS else "ml"}")
+                f"{nutrition.description} - Consumo diário: {nutrition.quantity}{'g' if nutrition.quantityType == ENutritionQuantityType.GRAMS else 'ml'}")
 
     print(f"\n{ANSI.UNDERLINE}Opções:{ANSI.END}")
     print("1- Consulta de sintomas")
@@ -180,14 +189,20 @@ def _getObj(array: List[any], prop: str, value: any):
 while shouldProgramRun:
     # Enquanto não for encontrado um animal, é perguntado novamente
     while animalObj is None:
-        animalName = input('Qual o animal que deseja consultar?\n')
+        animalName = input(f'Qual o animal que deseja consultar? ({_getConcatValuesFromList(animals, 'name')})\n')
         animalObj = _getObj(animals, "name", animalName)
         if animalObj is None:
             print("Animal não encontrado, tente novamente.\n")
 
+    # Filtro para separar as raças disponíveis para consulta
+    avaliableBreeds = []
+    for breed in animalBreeds:
+        if breed.idAnimal == animalObj.id:
+            avaliableBreeds.append(breed)
+
     # Enquanto não for encontrado uma raça, é perguntado novamente
     while breedObj is None:
-        breedName = input(f'Qual a raça do {animalObj.name}?\n')
+        breedName = input(f'Qual a raça do {animalObj.name}? ({_getConcatValuesFromList(avaliableBreeds, 'name')})\n')
         breedObj = _getObj(animalBreeds, "name", breedName)
         if breedObj is None:
             print("Raça não encontrada, tente novamente.\n")
