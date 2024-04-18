@@ -256,4 +256,13 @@ illnesses: List[Illness] = [
                 SymptomIntensity(9, 3)],
             [6, 5],
             "Alimentação balanceada de acordo com o animal",0,0, [1,2,3]),
+    Illness(8,
+            "Rinotraqueíte Felina",
+            [
+                SymptomIntensity(1, 2),
+                SymptomIntensity(2, 3),
+                SymptomIntensity(4, 2),
+                SymptomIntensity(3, 5)],
+            [1, 7, 3, 5, 6],
+            "Vacinação em dia e higiene constante ajudam na prevenção da doença",0,0, [3]),
 ]
